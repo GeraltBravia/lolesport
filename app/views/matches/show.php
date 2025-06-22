@@ -17,7 +17,7 @@ include 'app/views/shares/header.php'; ?>
                         </h3>
                         <p><strong>Ngày thi đấu:</strong> <?php echo htmlspecialchars($match->MatchDate ?? '', ENT_QUOTES, 'UTF-8'); ?></p>
                         <p><strong>Kết quả:</strong> <?php echo htmlspecialchars($match->Result ?? 'Chưa có', ENT_QUOTES, 'UTF-8'); ?></p>
-                        <p><strong>Giải đấu:</strong> <?php echo htmlspecialchars($match->TournamentID ?? '', ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p><strong>Giải đấu:</strong> <?php echo htmlspecialchars($match->TournamentName ?? '', ENT_QUOTES, 'UTF-8'); ?></p>
                         <a href="/project-esports/match/list" class="btn btn-secondary mt-2">Quay lại danh sách</a>
                     </div>
                 </div>

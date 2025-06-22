@@ -6,12 +6,14 @@ require_once('app/models/FavoriteModel.php');
 class TeamController {
     private $teamModel;
     private $favoriteModel;
+    private $TournamentModel;
     private $db;
 
     public function __construct() {
         $this->db = (new Database())->getConnection();
         $this->teamModel = new TeamModel($this->db);
         $this->favoriteModel = new FavoriteModel($this->db);
+        $this->TournamentModel = new TournamentModel($this->db);
     }
 
     // Kiểm tra quyền Admin
@@ -46,26 +48,31 @@ class TeamController {
             echo "Bạn không có quyền truy cập chức năng này!";
             exit;
         }
+        $tournaments = $this->TournamentModel->getAll(); // Lấy danh sách giải đấu
         include_once 'app/views/teams/add.php';
     }
 
     // Lưu đội mới (chỉ Admin)
     public function save() {
-        if (!$this->isAdmin()) {
-            echo "Bạn không có quyền truy cập chức năng này!";
-            exit;
-        }
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = $_POST['name'] ?? '';
-            $region = $_POST['region'] ?? '';
-            $result = $this->teamModel->addTeam($name, $region);
-            if ($result) {
-                header('Location: /project-esports/Team');
-            } else {
-                $errors = ['Lỗi khi thêm đội'];
-                include 'app/views/teams/add.php';
+        $name = $_POST['name'];
+        $region = $_POST['region'];
+        $tournamentId = $_POST['tournamentId'];
+
+        // Xử lý upload logo
+        $logoURL = '';
+        if (isset($_FILES['logoURL']) && $_FILES['logoURL']['error'] == 0) {
+            $targetDir = "uploads/logos/";
+            if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
+            $fileName = uniqid() . '_' . basename($_FILES['logoURL']['name']);
+            $targetFile = $targetDir . $fileName;
+            if (move_uploaded_file($_FILES['logoURL']['tmp_name'], $targetFile)) {
+                $logoURL = $targetFile;
             }
         }
+
+        $this->teamModel->addTeam($name, $region, $logoURL, $tournamentId);
+        header('Location: /project-esports/Team/list');
+        exit;
     }
 
     // Sửa đội (chỉ Admin)
@@ -92,7 +99,9 @@ class TeamController {
             $id = $_POST['id'];
             $name = $_POST['name'];
             $region = $_POST['region'];
-            $edit = $this->teamModel->updateTeam($id, $name, $region);
+            $logoURL = $_POST['logoURL'] ?? '';
+            $tournamentId = $_POST['tournamentId'] ?? '';
+            $edit = $this->teamModel->updateTeam($id, $name, $region, $logoURL, $tournamentId);
             if ($edit) {
                 header('Location: /project-esports/Team');
             } else {

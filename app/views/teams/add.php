@@ -9,7 +9,7 @@
         </ul>
     </div>
 <?php endif; ?>
-<form method="POST" action="/project-esports/Team/save">
+<form method="POST" action="/project-esports/Team/save" enctype="multipart/form-data">
     <div class="form-group">
         <label for="name">Tên đội:</label>
         <input type="text" id="name" name="name" class="form-control" required>
@@ -17,6 +17,20 @@
     <div class="form-group">
         <label for="region">Khu vực:</label>
         <input type="text" id="region" name="region" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="logoURL">Logo (chọn ảnh):</label>
+        <input type="file" id="logoURL" name="logoURL" class="form-control" accept="image/*">
+    </div>
+    <div class="form-group">
+        <label for="tournamentId">Giải đấu:</label>
+        <select id="tournamentId" name="tournamentId" class="form-control" required>
+            <?php foreach ($tournaments as $tournament): ?>
+                <option value="<?php echo $tournament->TournamentID; ?>">
+                    <?php echo htmlspecialchars($tournament->Name); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Thêm đội</button>
 </form>

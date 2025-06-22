@@ -2,9 +2,11 @@
 class TeamModel {
     private $conn;
     private $table_name = "Teams";
+
     public function __construct($db) {
         $this->conn = $db;
     }
+
     public function getAll() {
         $query = "SELECT t.*, tour.Name as TournamentName
                   FROM {$this->table_name} t
@@ -13,6 +15,7 @@ class TeamModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function getById($id) {
         $query = "SELECT t.*, tour.Name as TournamentName
                   FROM {$this->table_name} t
@@ -23,6 +26,7 @@ class TeamModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
     public function addTeam($name, $region, $logoURL, $tournamentId) {
         $query = "INSERT INTO {$this->table_name} (Name, Region, LogoURL, TournamentID) VALUES (:name, :region, :logoURL, :tournamentId)";
         $stmt = $this->conn->prepare($query);
@@ -32,6 +36,7 @@ class TeamModel {
         $stmt->bindParam(':tournamentId', $tournamentId);
         return $stmt->execute();
     }
+
     public function updateTeam($id, $name, $region, $logoURL, $tournamentId) {
         $query = "UPDATE {$this->table_name} SET Name=:name, Region=:region, LogoURL=:logoURL, TournamentID=:tournamentId WHERE TeamID=:id";
         $stmt = $this->conn->prepare($query);
@@ -42,11 +47,20 @@ class TeamModel {
         $stmt->bindParam(':tournamentId', $tournamentId);
         return $stmt->execute();
     }
+
     public function deleteTeam($id) {
         $query = "DELETE FROM {$this->table_name} WHERE TeamID=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
+    }
+
+    public static function image($logoURL) {
+        $basePath = __DIR__ . '/../../public/uploads/'; // Thư mục lưu ảnh, điều chỉnh nếu cần
+        if ($logoURL && file_exists($basePath . basename($logoURL))) {
+            return '/uploads/' . basename($logoURL); // Trả về đường dẫn tương đối
+        }
+        return '/assets/no-logo.png'; // Đường dẫn ảnh mặc định
     }
 }
 ?>

@@ -5,11 +5,17 @@
             <h2 class="mb-0">Chi tiết đội</h2>
         </div>
         <div class="card-body">
-            <?php if  (is_object($team)): ?>
+            <?php if (is_object($team)): ?>
                 <h3 class="card-title text-dark font-weight-bold">
                     <?php echo htmlspecialchars($team->Name, ENT_QUOTES, 'UTF-8'); ?>
                 </h3>
                 <p><strong>Khu vực:</strong> <?php echo htmlspecialchars($team->Region, ENT_QUOTES, 'UTF-8'); ?></p>
+                <?php
+                require_once 'app/models/TeamModel.php';
+                $logoUrl = TeamModel::image($team->LogoURL);
+                if ($logoUrl): ?>
+                    <img src="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="img-fluid rounded mb-3" width="100">
+                <?php endif; ?>
                 <a href="/project-esports/Team/list" class="btn btn-secondary mt-2">Quay lại danh sách</a>
             <?php else: ?>
                 <div class="alert alert-danger text-center">

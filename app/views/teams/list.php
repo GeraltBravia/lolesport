@@ -1,6 +1,5 @@
 <?php
- 
-include 'app/views/shares/header.php'; 
+include 'app/views/shares/header.php';
 require_once 'app/helpers/AuthHelper.php';
 ?>
 <div class="container my-5">
@@ -30,8 +29,9 @@ function renderTeam(team, isAdmin) {
     col.setAttribute('data-id', team.TeamID);
     col.innerHTML = `
         <div class="card h-100 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">
+            <div class="card-body text-center">
+                <img src="/${escapeHTML(team.LogoURL || 'assets/no-logo.png')}" alt="Logo" class="mb-3" style="max-width:80px;max-height:80px;object-fit:contain;">
+                <h5 class="card-title mt-2">
                     <a href="/project-esports/Team/show/${team.TeamID}" class="text-decoration-none text-primary">
                         ${escapeHTML(team.Name)}
                     </a>

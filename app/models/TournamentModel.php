@@ -19,13 +19,13 @@ class TournamentModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-    public function addTournament($name, $startDate, $endDate, $region, $status) {
-        $query = "INSERT INTO {$this->table_name} (Name, StartDate, EndDate, Region, Status) VALUES (:name, :startDate, :endDate, :region, :status)";
+    public function addTournament($name, $startDate, $endDate, $slug, $status) {
+        $query = "INSERT INTO Tournaments (Name, StartDate, EndDate, Slug, Status) VALUES (:name, :startDate, :endDate, :slug, :status)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':startDate', $startDate);
         $stmt->bindParam(':endDate', $endDate);
-        $stmt->bindParam(':region', $region);
+        $stmt->bindParam(':slug', $slug);
         $stmt->bindParam(':status', $status);
         return $stmt->execute();
     }
