@@ -1,0 +1,124 @@
+/* Reset mặc định và biến CSS (custom properties) */
+:root {
+    --primary-bg: #f4f4f4;
+    --primary-text: #333;
+    --header-bg: #1a1a1a;
+    --header-text: #fff;
+    --link-color: #007bff;
+    --link-hover: #ffcc00;
+    --border-color: #ddd;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--primary-text);
+    background-color: var(--primary-bg);
+    transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển đổi dark mode */
+}
+
+/* Header */
+header {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: var(--spacing-md);
+    text-align: center;
+}
+
+nav a {
+    color: #00c3ff;
+    margin: 0 var(--spacing-md);
+    text-decoration: none;
+    transition: color 0.3s ease; /* Hiệu ứng hover mượt mà */
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: var(--link-hover);
+}
+
+/* Main content */
+main {
+    padding: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 100px); /* Đảm bảo không bị footer che */
+}
+
+h1 {
+    color: var(--header-bg);
+    margin-bottom: var(--spacing-md);
+    transition: color 0.3s;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: border-color 0.3s;
+}
+
+ul li a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+    color: var(--link-hover);
+}
+
+/* Footer */
+footer {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    text-align: center;
+    padding: var(--spacing-md);
+    width: 100%;
+    position: relative; /* Thay fixed để tránh che nội dung */
+    bottom: 0;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    main {
+        padding: var(--spacing-md);
+    }
+
+    nav a {
+        display: block;
+        margin: var(--spacing-sm) 0;
+    }
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-bg: #222;
+        --primary-text: #e0e0e0;
+        --border-color: #444;
+    }
+
+    h1 {
+        color: var(--header-text);
+    }
+
+    ul li {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    
+}
